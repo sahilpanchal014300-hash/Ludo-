@@ -1,0 +1,2771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Human Ludo Pro Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================================
+           PRO-GAMING OBSIDIAN & SLATE DESIGN SYSTEM
+           ========================================================= */
+        :root {
+            --red: #ef4444;
+            --red-dark: #991b1b;
+            --red-soft: rgba(239, 68, 68, 0.16);
+
+            --green: #22c55e;
+            --green-dark: #166534;
+            --green-soft: rgba(34, 197, 94, 0.16);
+
+            --yellow: #eab308;
+            --yellow-dark: #854d0e;
+            --yellow-soft: rgba(234, 179, 8, 0.16);
+
+            --blue: #3b82f6;
+            --blue-dark: #1e40af;
+            --blue-soft: rgba(59, 130, 246, 0.16);
+
+            --bg-canvas: #060911;
+            --bg-surface: #0b111e;
+            --bg-elevated: #111a2e;
+            --bg-card: rgba(15, 23, 41, 0.92);
+            --border-subtle: rgba(148, 163, 184, 0.14);
+            --border-strong: rgba(148, 163, 184, 0.28);
+
+            --gold: #eab308;
+            --gold-bright: #facc15;
+            --gold-dim: rgba(234, 179, 8, 0.12);
+            --gold-border: rgba(250, 204, 21, 0.38);
+
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            min-height: 100%;
+            width: 100%;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-canvas);
+            background-image:
+                radial-gradient(circle at 15% 10%, rgba(59, 130, 246, 0.08), transparent 42%),
+                radial-gradient(circle at 85% 18%, rgba(234, 179, 8, 0.07), transparent 40%),
+                radial-gradient(circle at 50% 100%, rgba(34, 197, 94, 0.06), transparent 48%),
+                linear-gradient(180deg, #060911 0%, #090e1a 100%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* =========================================================
+           SHARED BUTTONS & BADGES
+           ========================================================= */
+        .btn {
+            font-family: inherit;
+            font-weight: 700;
+            border-radius: 10px;
+            border: 1px solid var(--border-strong);
+            cursor: pointer;
+            transition: transform 0.14s ease, background-color 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .btn-ghost {
+            background: rgba(17, 26, 46, 0.85);
+            color: var(--text-primary);
+            border-color: var(--border-subtle);
+            font-size: 0.78rem;
+            padding: 7px 11px;
+        }
+
+        .btn-ghost:hover:not(:disabled) {
+            background: rgba(26, 39, 68, 0.95);
+            border-color: var(--border-strong);
+        }
+
+        .btn-ghost.active-toggle {
+            background: var(--gold-dim);
+            color: var(--gold-bright);
+            border-color: var(--gold-border);
+        }
+
+        .btn-gold {
+            background: linear-gradient(180deg, #facc15 0%, #eab308 55%, #ca8a04 100%);
+            color: #090d16;
+            border: 1px solid #fef08a;
+            box-shadow: 0 6px 20px rgba(234, 179, 8, 0.24);
+            font-weight: 800;
+            letter-spacing: 0.03em;
+        }
+
+        .btn-gold:hover:not(:disabled) {
+            box-shadow: 0 8px 26px rgba(234, 179, 8, 0.36);
+        }
+
+        .btn-emerald {
+            background: linear-gradient(180deg, #34d399 0%, #10b981 100%);
+            color: #051610;
+            border: 1px solid #6ee7b7;
+            font-weight: 800;
+        }
+
+        /* =========================================================
+           LOBBY SCREEN
+           ========================================================= */
+        .lobby-shell {
+            width: 100%;
+            max-width: 560px;
+            min-height: 100vh;
+            margin: 0 auto;
+            padding: 14px 16px 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .lobby-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 6px 12px 6px 6px;
+        }
+
+        .profile-avatar-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--gold-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .profile-name-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .profile-name-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px dashed transparent;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.86rem;
+            font-weight: 700;
+            width: 96px;
+            outline: none;
+        }
+
+        .profile-name-input:focus {
+            border-bottom-color: var(--gold-bright);
+        }
+
+        .level-tag {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--gold-bright);
+            background: var(--gold-dim);
+            border: 1px solid var(--gold-border);
+            padding: 1px 6px;
+            border-radius: 5px;
+        }
+
+        .profile-sub {
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+            margin-top: 1px;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Central Crest */
+        .hero-crest {
+            background: linear-gradient(165deg, rgba(17, 26, 46, 0.94), rgba(10, 16, 30, 0.94));
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 16px 16px 14px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-crest::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(234, 179, 8, 0.14), transparent 65%);
+            pointer-events: none;
+        }
+
+        .crest-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.66rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold-bright);
+            background: var(--gold-dim);
+            border: 1px solid var(--gold-border);
+            padding: 3px 10px;
+            border-radius: 999px;
+            margin-bottom: 8px;
+        }
+
+        .crest-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.55rem, 5vw, 2.15rem);
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            line-height: 1.1;
+            color: var(--text-primary);
+        }
+
+        .crest-title span {
+            color: var(--gold-bright);
+        }
+
+        .crest-sub {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .squad-showcase-strip {
+            margin-top: 12px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .squad-preview-tile {
+            background: rgba(8, 13, 24, 0.72);
+            border: 1px solid var(--border-subtle);
+            border-radius: 11px;
+            padding: 7px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            cursor: pointer;
+            transition: border-color 0.15s ease, transform 0.15s ease;
+        }
+
+        .squad-preview-tile:hover {
+            border-color: var(--gold-border);
+            transform: translateY(-1px);
+        }
+
+        .squad-tile-label {
+            font-size: 0.64rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Mode Cards */
+        .mode-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .mode-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 13px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-strong);
+        }
+
+        .mode-card.selected {
+            border-color: var(--gold-bright);
+            box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.25), 0 10px 24px rgba(0, 0, 0, 0.35);
+            background: linear-gradient(180deg, rgba(25, 35, 58, 0.95), rgba(14, 22, 39, 0.95));
+        }
+
+        .mode-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+
+        .mode-icon-box {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-bright);
+        }
+
+        .mode-badge {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            padding: 2px 7px;
+            border-radius: 5px;
+            background: var(--gold-dim);
+            color: var(--gold-bright);
+            border: 1px solid var(--gold-border);
+        }
+
+        .mode-title {
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .mode-desc {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            line-height: 1.35;
+        }
+
+        /* Match Config Panel */
+        .match-config-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .config-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .config-label {
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .seg-group {
+            display: inline-flex;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 9px;
+            padding: 3px;
+            gap: 3px;
+        }
+
+        .seg-btn {
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.74rem;
+            font-weight: 700;
+            padding: 5px 11px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.14s ease, color 0.14s ease;
+        }
+
+        .seg-btn.active {
+            background: var(--gold-bright);
+            color: #090d16;
+        }
+
+        .color-pick-row {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .color-chip {
+            width: 26px;
+            height: 26px;
+            border-radius: 7px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: transform 0.14s ease, border-color 0.14s ease;
+            position: relative;
+        }
+
+        .color-chip.active {
+            border-color: #ffffff;
+            transform: scale(1.1);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+        }
+
+        .lobby-cta-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+        }
+
+        .start-match-btn {
+            padding: 13px 18px;
+            font-size: 0.92rem;
+            border-radius: 12px;
+        }
+
+        .lobby-footer-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .footer-action-btn {
+            background: rgba(13, 20, 35, 0.85);
+            border: 1px solid var(--border-subtle);
+            border-radius: 11px;
+            padding: 9px 8px;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.73rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: border-color 0.14s ease, color 0.14s ease, background-color 0.14s ease;
+        }
+
+        .footer-action-btn:hover {
+            border-color: var(--border-strong);
+            color: var(--text-primary);
+            background: rgba(20, 31, 53, 0.95);
+        }
+
+        /* =========================================================
+           GAME ARENA SCREEN
+           ========================================================= */
+        .game-shell {
+            width: 100%;
+            max-width: 540px;
+            min-height: 100vh;
+            margin: 0 auto;
+            padding: 10px 12px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .arena-topbar {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 7px 10px;
+        }
+
+        .arena-brand {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.88rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            color: var(--gold-bright);
+        }
+
+        .arena-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .mini-btn {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 5px 8px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.14s ease, border-color 0.14s ease;
+        }
+
+        .mini-btn:hover {
+            background: #1a2846;
+            border-color: var(--border-strong);
+        }
+
+        .telemetry-bar {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            background: rgba(11, 17, 30, 0.86);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .telemetry-pill {
+            color: var(--gold-bright);
+            font-weight: 700;
+        }
+
+        .players-row {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .player-pod {
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 6px 9px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .player-pod.inactive-seat {
+            opacity: 0.35;
+        }
+
+        .player-pod.active-turn {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        }
+
+        .player-pod.active-turn[data-color="red"] { border-color: var(--red); background: linear-gradient(90deg, rgba(239, 68, 68, 0.15), var(--bg-card)); }
+        .player-pod.active-turn[data-color="green"] { border-color: var(--green); background: linear-gradient(90deg, rgba(34, 197, 94, 0.15), var(--bg-card)); }
+        .player-pod.active-turn[data-color="yellow"] { border-color: var(--yellow); background: linear-gradient(90deg, rgba(234, 179, 8, 0.16), var(--bg-card)); }
+        .player-pod.active-turn[data-color="blue"] { border-color: var(--blue); background: linear-gradient(90deg, rgba(59, 130, 246, 0.15), var(--bg-card)); }
+
+        .pod-left {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            min-width: 0;
+        }
+
+        .color-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .pod-info {
+            min-width: 0;
+        }
+
+        .pod-name {
+            font-size: 0.76rem;
+            font-weight: 800;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .pod-sub {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+
+        .home-pips {
+            display: flex;
+            gap: 3px;
+            margin-top: 3px;
+        }
+
+        .home-pip {
+            width: 8px;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(148, 163, 184, 0.22);
+        }
+
+        .home-pip.done {
+            background: var(--gold-bright);
+        }
+
+        .status-banner {
+            width: 100%;
+            min-height: 32px;
+            padding: 6px 12px;
+            border-radius: 10px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-strong);
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* =========================================================
+           TACTILE 3D DICE
+           ========================================================= */
+        .dice-box {
+            width: 42px;
+            height: 42px;
+            perspective: 260px;
+            cursor: pointer;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .dice-box.disabled-dice {
+            opacity: 0.45;
+            cursor: default;
+        }
+
+        .dice-box.can-roll::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 12px;
+            border: 2px solid var(--gold-bright);
+            animation: dicePulse 1.2s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes dicePulse {
+            0%, 100% { transform: scale(0.96); opacity: 0.9; }
+            50% { transform: scale(1.07); opacity: 0.35; }
+        }
+
+        .dice-cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.45s cubic-bezier(0.22, 1.15, 0.36, 1);
+        }
+
+        .dice-cube.rolling {
+            animation: diceTumble 0.36s linear infinite;
+        }
+
+        @keyframes diceTumble {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            50% { transform: rotateX(190deg) rotateY(160deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        .dice-face {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, #ffffff, #e2e8f0);
+            border-radius: 9px;
+            border: 1px solid #cbd5e1;
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.9);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            padding: 5px;
+            place-items: center;
+        }
+
+        .pip {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #0f172a;
+            opacity: 0;
+        }
+
+        .pip.show {
+            opacity: 1;
+        }
+
+        .pip.red-pip {
+            background: #dc2626;
+            width: 7px;
+            height: 7px;
+        }
+
+        .face-1 { transform: rotateY(0deg) translateZ(21px); }
+        .face-2 { transform: rotateY(90deg) translateZ(21px); }
+        .face-3 { transform: rotateY(180deg) translateZ(21px); }
+        .face-4 { transform: rotateY(-90deg) translateZ(21px); }
+        .face-5 { transform: rotateX(90deg) translateZ(21px); }
+        .face-6 { transform: rotateX(-90deg) translateZ(21px); }
+
+        /* =========================================================
+           15x15 LUDO BOARD & ANIME HUMAN AVATARS
+           ========================================================= */
+        .board-frame {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #0f172a;
+            border: 2px solid var(--border-strong);
+            border-radius: 16px;
+            padding: 6px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+            position: relative;
+        }
+
+        .ludo-board {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            grid-template-rows: repeat(15, 1fr);
+            background: #f8fafc;
+            border-radius: 11px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .cell {
+            border: 0.5px solid rgba(15, 23, 42, 0.14);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cell.base-red { background: #fee2e2; border-color: rgba(239, 68, 68, 0.18); }
+        .cell.base-green { background: #dcfce7; border-color: rgba(34, 197, 94, 0.18); }
+        .cell.base-yellow { background: #fef9c3; border-color: rgba(234, 179, 8, 0.22); }
+        .cell.base-blue { background: #dbeafe; border-color: rgba(59, 130, 246, 0.18); }
+
+        .cell.path-red { background: #ef4444; }
+        .cell.path-green { background: #22c55e; }
+        .cell.path-yellow { background: #eab308; }
+        .cell.path-blue { background: #3b82f6; }
+
+        .cell.safe-star::after {
+            content: '★';
+            font-size: clamp(0.55rem, 1.8vw, 0.85rem);
+            color: rgba(15, 23, 42, 0.42);
+            pointer-events: none;
+        }
+
+        .cell.path-red.safe-star::after,
+        .cell.path-green.safe-star::after,
+        .cell.path-blue.safe-star::after {
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        .cell.path-yellow.safe-star::after {
+            color: rgba(15, 23, 42, 0.65);
+        }
+
+        .yard-ring {
+            position: absolute;
+            border-radius: 16px;
+            pointer-events: none;
+            background: rgba(255, 255, 255, 0.78);
+            border: 2px solid rgba(15, 23, 42, 0.12);
+        }
+
+        .home-center-diamond {
+            position: absolute;
+            left: 40%;
+            top: 40%;
+            width: 20%;
+            height: 20%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Anime Human Token Layer */
+        .tokens-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .anime-token {
+            position: absolute;
+            width: 8.4%;
+            height: 8.4%;
+            transform: translate(-50%, -56%);
+            transition: left 0.16s ease-out, top 0.16s ease-out, transform 0.16s ease-out;
+            pointer-events: none;
+            z-index: 12;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .anime-token .avatar-shell {
+            width: 100%;
+            height: 100%;
+            animation: humanIdle 2.1s ease-in-out infinite;
+            transform-origin: bottom center;
+            filter: drop-shadow(0 3px 4px rgba(15, 23, 42, 0.35));
+        }
+
+        .anime-token.hopping .avatar-shell {
+            animation: humanHop 0.16s ease-in-out infinite;
+        }
+
+        .anime-token.movable {
+            pointer-events: auto;
+            cursor: pointer;
+            z-index: 25;
+        }
+
+        .anime-token.movable .avatar-shell {
+            animation: humanExcitedJump 0.72s ease-in-out infinite;
+            filter: drop-shadow(0 0 7px rgba(250, 204, 21, 0.95)) drop-shadow(0 4px 5px rgba(0, 0, 0, 0.4));
+        }
+
+        .anime-token.movable::after {
+            content: '';
+            position: absolute;
+            bottom: 2%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 78%;
+            height: 24%;
+            border-radius: 50%;
+            border: 2px solid #facc15;
+            background: rgba(250, 204, 21, 0.25);
+            animation: ringPulse 0.9s infinite ease-in-out;
+        }
+
+        .anime-token.knockout .avatar-shell {
+            animation: humanSpinOut 0.42s ease-in forwards;
+        }
+
+        @keyframes humanIdle {
+            0%, 100% { transform: scaleY(1) translateY(0); }
+            50% { transform: scaleY(1.04) translateY(-1.2px); }
+        }
+
+        @keyframes humanExcitedJump {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.1); }
+        }
+
+        @keyframes humanHop {
+            0%, 100% { transform: translateY(0) scale(1.06); }
+            50% { transform: translateY(-6px) scale(1.12); }
+        }
+
+        @keyframes humanSpinOut {
+            0% { transform: rotate(0deg) scale(1.15); opacity: 1; }
+            100% { transform: rotate(540deg) scale(0.2); opacity: 0; }
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: translateX(-50%) scale(0.9); opacity: 1; }
+            50% { transform: translateX(-50%) scale(1.25); opacity: 0.4; }
+        }
+
+        /* =========================================================
+           MODALS (CUSTOMIZER, LEADERBOARD, SETTINGS, VICTORY)
+           ========================================================= */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 6, 14, 0.82);
+            backdrop-filter: blur(6px);
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-strong);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .modal-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--gold-bright);
+            letter-spacing: 0.04em;
+        }
+
+        .close-x {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: var(--bg-surface);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .close-x:hover {
+            color: var(--text-primary);
+            border-color: var(--border-strong);
+        }
+
+        .team-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+
+        .team-tab-btn {
+            padding: 7px 6px;
+            border-radius: 9px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            font-size: 0.74rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .team-tab-btn.active {
+            color: var(--text-primary);
+            border-color: var(--gold-bright);
+            background: rgba(234, 179, 8, 0.14);
+        }
+
+        .member-pills {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+
+        .member-pill {
+            padding: 6px;
+            border-radius: 8px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .member-pill.active {
+            background: var(--gold-bright);
+            color: #090d16;
+            border-color: var(--gold-bright);
+        }
+
+        .customizer-stage {
+            display: grid;
+            grid-template-columns: 126px 1fr;
+            gap: 12px;
+            align-items: start;
+        }
+
+        @media (max-width: 460px) {
+            .customizer-stage {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .live-preview-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .trait-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .trait-group-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .option-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .opt-chip {
+            padding: 5px 8px;
+            border-radius: 7px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .opt-chip.selected {
+            background: rgba(250, 204, 21, 0.16);
+            color: var(--gold-bright);
+            border-color: var(--gold-bright);
+        }
+
+        .swatch-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .swatch-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .swatch-btn.selected {
+            border-color: #ffffff;
+            transform: scale(1.12);
+        }
+
+        .stat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .stat-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 0.78rem;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.96);
+            color: var(--text-primary);
+            border: 1px solid var(--gold-border);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            z-index: 90;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =========================================================
+         LOBBY SCREEN
+         ========================================================= -->
+    <main class="lobby-shell" id="lobbyScreen">
+        <div>
+            <!-- Top Bar: Profile + Quick Actions -->
+            <div class="lobby-topbar">
+                <div class="profile-pill">
+                    <div class="profile-avatar-box" id="lobbyProfileAvatar"></div>
+                    <div>
+                        <div class="profile-name-row">
+                            <input
+                                id="playerNameInput"
+                                class="profile-name-input"
+                                type="text"
+                                maxlength="14"
+                                value="Player 1"
+                                onchange="updatePlayerName(this.value)"
+                                aria-label="Player Name"
+                            >
+                            <span class="level-tag mono" id="lobbyLevelBadge">LVL 1</span>
+                        </div>
+                        <div class="profile-sub mono" id="lobbyWinsSub">0 Wins • 0 Matches</div>
+                    </div>
+                </div>
+
+                <div class="top-actions">
+                    <button class="btn btn-ghost" onclick="openCustomizerModal()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                        Avatars
+                    </button>
+                    <button class="btn btn-ghost" onclick="openLeaderboardModal()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/></svg>
+                        Stats
+                    </button>
+                    <button class="btn btn-ghost" onclick="openSettingsModal()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- Central Crest & 4-Team Squad Showcase -->
+            <section class="hero-crest" style="margin-top: 12px;">
+                <div class="crest-eyebrow">Pro Studio Edition • 16 Anime Humans</div>
+                <h1 class="crest-title">ANIME <span>LUDO</span></h1>
+                <p class="crest-sub">Tactical 4-squad board arena with animated anime human avatars</p>
+
+                <div class="squad-showcase-strip" id="lobbySquadStrip"></div>
+            </section>
+
+            <!-- Mode Cards -->
+            <section class="mode-grid" style="margin-top: 12px;">
+                <button class="mode-card selected" id="modeCardAi" onclick="selectGameMode('ai')">
+                    <div class="mode-card-top">
+                        <div class="mode-icon-box">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+                        </div>
+                        <span class="mode-badge mono">VS AI</span>
+                    </div>
+                    <div>
+                        <div class="mode-title">Computer</div>
+                        <div class="mode-desc">Challenge smart AI bots with tactical captures &amp; safe zones.</div>
+                    </div>
+                </button>
+
+                <button class="mode-card" id="modeCardPass" onclick="selectGameMode('pass')">
+                    <div class="mode-card-top">
+                        <div class="mode-icon-box">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <span class="mode-badge mono">LOCAL</span>
+                    </div>
+                    <div>
+                        <div class="mode-title">Pass &amp; Play</div>
+                        <div class="mode-desc">Play side-by-side with friends on the same screen.</div>
+                    </div>
+                </button>
+            </section>
+
+            <!-- Match Configuration -->
+            <section class="match-config-box" style="margin-top: 10px;">
+                <div class="config-row">
+                    <span class="config-label">Players</span>
+                    <div class="seg-group" id="playerCountGroup">
+                        <button class="seg-btn" data-count="2" onclick="selectPlayerCount(2)">2P</button>
+                        <button class="seg-btn" data-count="3" onclick="selectPlayerCount(3)">3P</button>
+                        <button class="seg-btn active" data-count="4" onclick="selectPlayerCount(4)">4P</button>
+                    </div>
+                </div>
+
+                <div class="config-row" id="leadColorRow">
+                    <span class="config-label">Your Color</span>
+                    <div class="color-pick-row">
+                        <button class="color-chip active" data-color="red" style="background: var(--red);" onclick="selectLeadColor('red')" aria-label="Red"></button>
+                        <button class="color-chip" data-color="green" style="background: var(--green);" onclick="selectLeadColor('green')" aria-label="Green"></button>
+                        <button class="color-chip" data-color="yellow" style="background: var(--yellow);" onclick="selectLeadColor('yellow')" aria-label="Yellow"></button>
+                        <button class="color-chip" data-color="blue" style="background: var(--blue);" onclick="selectLeadColor('blue')" aria-label="Blue"></button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Primary CTA & Quick Strip -->
+        <div style="display:flex; flex-direction:column; gap:8px;">
+            <div class="lobby-cta-row">
+                <button class="btn btn-gold start-match-btn" onclick="startMatch()">
+                    START MATCH
+                </button>
+                <button class="btn btn-ghost" style="padding: 12px 14px;" onclick="openCustomizerModal()" title="Customize Anime Humans">
+                    Customize Squad
+                </button>
+            </div>
+
+            <div class="lobby-footer-strip">
+                <button class="footer-action-btn" onclick="openCustomizerModal()">Avatar Studio</button>
+                <button class="footer-action-btn" onclick="openLeaderboardModal()">Match Stats</button>
+                <button class="footer-action-btn" onclick="openSettingsModal()">Game Settings</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- =========================================================
+         GAMEPLAY ARENA SCREEN
+         ========================================================= -->
+    <section class="game-shell hidden" id="gameScreen">
+        <!-- Top Arena Bar -->
+        <div class="arena-topbar">
+            <div class="arena-brand">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></svg>
+                <span>ANIME LUDO</span>
+            </div>
+            <div class="arena-controls">
+                <button class="mini-btn" onclick="openCustomizerModal()">Humans</button>
+                <button class="mini-btn" onclick="restartCurrentMatch()">Restart</button>
+                <button class="mini-btn" id="arenaSoundBtn" onclick="toggleSound()">SFX: ON</button>
+                <button class="mini-btn" onclick="exitToLobby()">Lobby</button>
+            </div>
+        </div>
+
+        <!-- Telemetry Strip -->
+        <div class="telemetry-bar mono">
+            <span id="telemetryMode">VS AI • 4P</span>
+            <span class="telemetry-pill" id="telemetryStreak">6-STREAK: 0/3</span>
+        </div>
+
+        <!-- Top Pods (Red & Green) -->
+        <div class="players-row">
+            <div class="player-pod" id="pod-red" data-color="red">
+                <div class="pod-left">
+                    <span class="color-dot" style="background: var(--red);"></span>
+                    <div class="pod-info">
+                        <div class="pod-name" id="name-red">RED</div>
+                        <div class="pod-sub mono" id="sub-red">HUMAN</div>
+                        <div class="home-pips" id="pips-red"></div>
+                    </div>
+                </div>
+                <div class="dice-box" id="dice-red" onclick="handleDiceClick('red')"></div>
+            </div>
+
+            <div class="player-pod" id="pod-green" data-color="green">
+                <div class="pod-left">
+                    <span class="color-dot" style="background: var(--green);"></span>
+                    <div class="pod-info">
+                        <div class="pod-name" id="name-green">GREEN</div>
+                        <div class="pod-sub mono" id="sub-green">BOT</div>
+                        <div class="home-pips" id="pips-green"></div>
+                    </div>
+                </div>
+                <div class="dice-box" id="dice-green" onclick="handleDiceClick('green')"></div>
+            </div>
+        </div>
+
+        <!-- Status Banner -->
+        <div class="status-banner" id="statusBanner">Roll the dice to begin</div>
+
+        <!-- 15x15 Board -->
+        <div class="board-frame">
+            <div class="ludo-board" id="ludoBoard">
+                <svg class="home-center-diamond" viewBox="0 0 100 100">
+                    <polygon points="0,0 50,50 0,100" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+                    <polygon points="0,0 100,0 50,50" fill="#22c55e" stroke="#0f172a" stroke-width="2"/>
+                    <polygon points="100,0 100,100 50,50" fill="#eab308" stroke="#0f172a" stroke-width="2"/>
+                    <polygon points="0,100 100,100 50,50" fill="#3b82f6" stroke="#0f172a" stroke-width="2"/>
+                    <circle cx="50" cy="50" r="11" fill="#0f172a" stroke="#facc15" stroke-width="2.5"/>
+                </svg>
+                <div class="tokens-layer" id="tokensLayer"></div>
+            </div>
+        </div>
+
+        <!-- Bottom Pods (Blue & Yellow) -->
+        <div class="players-row">
+            <div class="player-pod" id="pod-blue" data-color="blue">
+                <div class="pod-left">
+                    <span class="color-dot" style="background: var(--blue);"></span>
+                    <div class="pod-info">
+                        <div class="pod-name" id="name-blue">BLUE</div>
+                        <div class="pod-sub mono" id="sub-blue">BOT</div>
+                        <div class="home-pips" id="pips-blue"></div>
+                    </div>
+                </div>
+                <div class="dice-box" id="dice-blue" onclick="handleDiceClick('blue')"></div>
+            </div>
+
+            <div class="player-pod" id="pod-yellow" data-color="yellow">
+                <div class="pod-left">
+                    <span class="color-dot" style="background: var(--yellow);"></span>
+                    <div class="pod-info">
+                        <div class="pod-name" id="name-yellow">YELLOW</div>
+                        <div class="pod-sub mono" id="sub-yellow">BOT</div>
+                        <div class="home-pips" id="pips-yellow"></div>
+                    </div>
+                </div>
+                <div class="dice-box" id="dice-yellow" onclick="handleDiceClick('yellow')"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================
+         MODAL: ANIME HUMAN CUSTOMIZER (16 CHARACTERS)
+         ========================================================= -->
+    <div class="modal-backdrop hidden" id="customizerModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">ANIME HUMAN STUDIO</span>
+                <button class="close-x" onclick="closeModal('customizerModal')">&times;</button>
+            </div>
+
+            <div class="team-tabs" id="customizerTeamTabs"></div>
+            <div class="member-pills" id="customizerMemberPills"></div>
+
+            <div class="customizer-stage">
+                <div class="live-preview-box">
+                    <div id="customizerLiveSvg" style="width: 86px; height: 86px;"></div>
+                    <div class="mono" style="font-size: 0.7rem; font-weight: 700; color: var(--gold-bright);" id="customizerSlotLabel">RED #1</div>
+                    <button class="mini-btn" style="width: 100%;" onclick="randomizeCurrentHuman()">Randomize</button>
+                    <button class="mini-btn" style="width: 100%;" onclick="applyToAllFourTeamMembers()">Apply to All 4</button>
+                </div>
+
+                <div class="trait-controls" id="customizerControls"></div>
+            </div>
+
+            <div style="display:flex; gap:8px; justify-content:flex-end; padding-top:6px; border-top:1px solid var(--border-subtle);">
+                <button class="btn btn-ghost" onclick="resetTeamSquad(customizerState.team)">Reset Team</button>
+                <button class="btn btn-gold" style="padding: 9px 16px; font-size: 0.8rem;" onclick="saveAndCloseCustomizer()">Save &amp; Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         MODAL: STATS / SETTINGS / VICTORY
+         ========================================================= -->
+    <div class="modal-backdrop hidden" id="infoModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title" id="infoModalTitle">STATS</span>
+                <button class="close-x" onclick="closeModal('infoModal')">&times;</button>
+            </div>
+            <div id="infoModalBody"></div>
+            <div id="infoModalFooter" style="padding-top: 6px;"></div>
+        </div>
+    </div>
+
+    <div class="toast hidden" id="toastBox"></div>
+
+    <script>
+        /* =========================================================
+           WEB AUDIO API SOUND ENGINE (ZERO EXTERNAL ASSETS)
+           ========================================================= */
+        const sfx = {
+            enabled: true,
+            ctx: null,
+            ensureCtx() {
+                if (!this.enabled) return null;
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume().catch(() => {});
+                }
+                return this.ctx;
+            },
+            tone(freq, type, duration, gainVal = 0.08, delay = 0) {
+                const ctx = this.ensureCtx();
+                if (!ctx) return;
+                try {
+                    const now = ctx.currentTime + delay;
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, now);
+                    gain.gain.setValueAtTime(gainVal, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + duration);
+                } catch (_) {}
+            },
+            roll() {
+                this.tone(240, 'triangle', 0.06, 0.07, 0);
+                this.tone(310, 'triangle', 0.06, 0.07, 0.06);
+                this.tone(380, 'triangle', 0.07, 0.07, 0.12);
+            },
+            hop(stepIdx = 0) {
+                this.tone(420 + stepIdx * 35, 'sine', 0.07, 0.06, 0);
+            },
+            exitHome() {
+                this.tone(523.25, 'triangle', 0.1, 0.09, 0);
+                this.tone(659.25, 'triangle', 0.14, 0.09, 0.08);
+            },
+            capture() {
+                this.tone(580, 'sawtooth', 0.09, 0.08, 0);
+                this.tone(220, 'sawtooth', 0.18, 0.08, 0.08);
+            },
+            sixBonus() {
+                this.tone(587.33, 'sine', 0.08, 0.08, 0);
+                this.tone(880, 'sine', 0.14, 0.08, 0.07);
+            },
+            goal() {
+                [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
+                    this.tone(f, 'triangle', 0.13, 0.09, i * 0.07);
+                });
+            },
+            win() {
+                [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => {
+                    this.tone(f, 'triangle', 0.18, 0.1, i * 0.09);
+                });
+            }
+        };
+
+        function toggleSound() {
+            sfx.enabled = !sfx.enabled;
+            const btn = document.getElementById('arenaSoundBtn');
+            if (btn) btn.textContent = sfx.enabled ? 'SFX: ON' : 'SFX: OFF';
+            showToast(sfx.enabled ? 'Sound effects enabled' : 'Sound effects muted');
+        }
+
+        function showToast(msg) {
+            const el = document.getElementById('toastBox');
+            el.textContent = msg;
+            el.classList.remove('hidden');
+            clearTimeout(showToast._t);
+            showToast._t = setTimeout(() => el.classList.add('hidden'), 2100);
+        }
+
+        /* =========================================================
+           ANIME HUMAN TRAITS & 16-AVATAR SVG RENDERER
+           ========================================================= */
+        const COLORS = ['red', 'green', 'yellow', 'blue'];
+        const TEAM_HEX = {
+            red: '#ef4444',
+            green: '#22c55e',
+            yellow: '#eab308',
+            blue: '#3b82f6'
+        };
+
+        const HAIR_STYLES = [
+            { id: 'spiky', label: 'Spiky' },
+            { id: 'twintails', label: 'Twin Tails' },
+            { id: 'flowing', label: 'Long' },
+            { id: 'ponytail', label: 'Ponytail' },
+            { id: 'bob', label: 'Bob' },
+            { id: 'fringe', label: 'Fringe' }
+        ];
+
+        const HAIR_COLORS = ['#1e293b', '#ef4444', '#3b82f6', '#f59e0b', '#a855f7', '#ec4899', '#10b981', '#f8fafc'];
+        const SKIN_TONES = ['#fde6d8', '#f5cba7', '#e0ac69', '#c68642', '#8d5524', '#5c3818'];
+
+        const EYE_STYLES = [
+            { id: 'sparkle', label: 'Sparkle' },
+            { id: 'sharp', label: 'Sharp' },
+            { id: 'wink', label: 'Wink' },
+            { id: 'blush', label: 'Kawaii' },
+            { id: 'fierce', label: 'Fierce' }
+        ];
+
+        const OUTFIT_STYLES = [
+            { id: 'jersey', label: 'Jersey' },
+            { id: 'shinobi', label: 'Shinobi' },
+            { id: 'mage', label: 'Mage' },
+            { id: 'mecha', label: 'Mecha' },
+            { id: 'hoodie', label: 'Hoodie' }
+        ];
+
+        const HEADGEAR_STYLES = [
+            { id: 'none', label: 'None' },
+            { id: 'neko', label: 'Cat Ears' },
+            { id: 'band', label: 'Headband' },
+            { id: 'crown', label: 'Crown' },
+            { id: 'visor', label: 'Visor' },
+            { id: 'halo', label: 'Halo' }
+        ];
+
+        function defaultSquadForColor(color) {
+            const presets = [
+                { hairStyle: 'spiky', hairColor: HAIR_COLORS[0], skinTone: SKIN_TONES[0], eyes: 'sparkle', outfit: 'jersey', headgear: 'band' },
+                { hairStyle: 'twintails', hairColor: HAIR_COLORS[5], skinTone: SKIN_TONES[1], eyes: 'blush', outfit: 'mage', headgear: 'neko' },
+                { hairStyle: 'flowing', hairColor: HAIR_COLORS[2], skinTone: SKIN_TONES[2], eyes: 'sharp', outfit: 'shinobi', headgear: 'visor' },
+                { hairStyle: 'ponytail', hairColor: HAIR_COLORS[3], skinTone: SKIN_TONES[3], eyes: 'wink', outfit: 'mecha', headgear: 'crown' }
+            ];
+            return presets.map((p, i) => ({
+                ...p,
+                hairColor: i === 0 ? TEAM_HEX[color] : p.hairColor
+            }));
+        }
+
+        function createDefaultSquads() {
+            return {
+                red: defaultSquadForColor('red'),
+                green: defaultSquadForColor('green'),
+                yellow: defaultSquadForColor('yellow'),
+                blue: defaultSquadForColor('blue')
+            };
+        }
+
+        let animeSquads = loadSquads();
+
+        function loadSquads() {
+            try {
+                const raw = localStorage.getItem('anime_ludo_pro_squads_v1');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed && COLORS.every(c => Array.isArray(parsed[c]) && parsed[c].length === 4)) {
+                        return parsed;
+                    }
+                }
+            } catch (_) {}
+            return createDefaultSquads();
+        }
+
+        function persistSquads() {
+            try {
+                localStorage.setItem('anime_ludo_pro_squads_v1', JSON.stringify(animeSquads));
+            } catch (_) {}
+        }
+
+        function renderAnimeHumanSVG(color, memberIndex = 0, customSpec = null) {
+            const spec = customSpec || (animeSquads[color] && animeSquads[color][memberIndex]) || defaultSquadForColor(color)[0];
+            const teamCol = TEAM_HEX[color] || '#ef4444';
+            const skin = spec.skinTone || '#fde6d8';
+            const hair = spec.hairColor || '#1e293b';
+
+            let backHair = '';
+            if (spec.hairStyle === 'twintails') {
+                backHair = `
+                    <path d="M16 24 C7 22, 5 36, 11 46 C13 40, 14 34, 17 30 Z" fill="${hair}" stroke="#0f172a" stroke-width="1.5"/>
+                    <path d="M48 24 C57 22, 59 36, 53 46 C51 40, 50 34, 47 30 Z" fill="${hair}" stroke="#0f172a" stroke-width="1.5"/>
+                `;
+            } else if (spec.hairStyle === 'flowing') {
+                backHair = `
+                    <path d="M16 20 C12 32, 13 44, 18 49 L46 49 C51 44, 52 32, 48 20 Z" fill="${hair}" stroke="#0f172a" stroke-width="1.5"/>
+                `;
+            } else if (spec.hairStyle === 'ponytail') {
+                backHair = `
+                    <path d="M42 15 C54 14, 58 25, 52 35 C49 29, 46 24, 41 21 Z" fill="${hair}" stroke="#0f172a" stroke-width="1.5"/>
+                `;
+            }
+
+            let outfitSvg = '';
+            if (spec.outfit === 'shinobi') {
+                outfitSvg = `
+                    <path d="M18 54 C18 44, 46 44, 46 54 L48 61 L16 61 Z" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+                    <path d="M24 46 L40 58 M40 46 L24 58" stroke="${teamCol}" stroke-width="2"/>
+                `;
+            } else if (spec.outfit === 'mage') {
+                outfitSvg = `
+                    <path d="M16 54 C17 44, 47 44, 48 54 L50 61 L14 61 Z" fill="#312e81" stroke="#0f172a" stroke-width="1.5"/>
+                    <polygon points="32,46 35,52 41,52 36,56 38,61 32,57 26,61 28,56 23,52 29,52" fill="#facc15"/>
+                `;
+            } else if (spec.outfit === 'mecha') {
+                outfitSvg = `
+                    <path d="M15 54 C16 43, 48 43, 49 54 L49 61 L15 61 Z" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.5"/>
+                    <rect x="27" y="47" width="10" height="7" rx="2" fill="${teamCol}" stroke="#0f172a" stroke-width="1.2"/>
+                `;
+            } else if (spec.outfit === 'hoodie') {
+                outfitSvg = `
+                    <path d="M16 55 C16 44, 48 44, 48 55 L49 61 L15 61 Z" fill="${teamCol}" stroke="#0f172a" stroke-width="1.5"/>
+                    <path d="M25 45 Q32 52 39 45" fill="none" stroke="#f8fafc" stroke-width="2" stroke-linecap="round"/>
+                `;
+            } else {
+                // Team Jersey
+                outfitSvg = `
+                    <path d="M17 55 C17 44, 47 44, 47 55 L48 61 L16 61 Z" fill="${teamCol}" stroke="#0f172a" stroke-width="1.5"/>
+                    <polygon points="32,45 27,50 37,50" fill="#ffffff"/>
+                `;
+            }
+
+            let eyesSvg = '';
+            if (spec.eyes === 'wink') {
+                eyesSvg = `
+                    <circle cx="25.5" cy="31" r="3.4" fill="#0f172a"/>
+                    <circle cx="24.4" cy="29.7" r="1.3" fill="#ffffff"/>
+                    <path d="M36 31 Q39 28 42 31" fill="none" stroke="#0f172a" stroke-width="2.1" stroke-linecap="round"/>
+                `;
+            } else if (spec.eyes === 'sharp') {
+                eyesSvg = `
+                    <polygon points="22,29 29,31 23,33.5" fill="#0f172a"/>
+                    <polygon points="42,29 35,31 41,33.5" fill="#0f172a"/>
+                    <circle cx="25" cy="31" r="1" fill="#facc15"/>
+                    <circle cx="39" cy="31" r="1" fill="#facc15"/>
+                `;
+            } else if (spec.eyes === 'fierce') {
+                eyesSvg = `
+                    <path d="M21 27 L29 30" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M43 27 L35 30" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="25.5" cy="31.5" r="3" fill="#0f172a"/>
+                    <circle cx="38.5" cy="31.5" r="3" fill="#0f172a"/>
+                    <circle cx="24.6" cy="30.5" r="1" fill="#ffffff"/>
+                    <circle cx="37.6" cy="30.5" r="1" fill="#ffffff"/>
+                `;
+            } else if (spec.eyes === 'blush') {
+                eyesSvg = `
+                    <circle cx="25.5" cy="31" r="3.6" fill="#0f172a"/>
+                    <circle cx="38.5" cy="31" r="3.6" fill="#0f172a"/>
+                    <circle cx="24.3" cy="29.6" r="1.4" fill="#ffffff"/>
+                    <circle cx="37.3" cy="29.6" r="1.4" fill="#ffffff"/>
+                    <ellipse cx="21.5" cy="35" rx="3.2" ry="1.8" fill="#fb7185" opacity="0.65"/>
+                    <ellipse cx="42.5" cy="35" rx="3.2" ry="1.8" fill="#fb7185" opacity="0.65"/>
+                `;
+            } else {
+                // Sparkle
+                eyesSvg = `
+                    <circle cx="25.5" cy="31" r="3.5" fill="#0f172a"/>
+                    <circle cx="38.5" cy="31" r="3.5" fill="#0f172a"/>
+                    <circle cx="24.3" cy="29.7" r="1.35" fill="#ffffff"/>
+                    <circle cx="37.3" cy="29.7" r="1.35" fill="#ffffff"/>
+                    <circle cx="26.8" cy="32.4" r="0.8" fill="#ffffff"/>
+                    <circle cx="39.8" cy="32.4" r="0.8" fill="#ffffff"/>
+                `;
+            }
+
+            let frontHair = '';
+            if (spec.hairStyle === 'spiky') {
+                frontHair = `
+                    <path d="M17 25 L15 16 L23 19 L27 11 L32 18 L37 11 L41 19 L49 16 L47 25 C41 21, 23 21, 17 25 Z" fill="${hair}" stroke="#0f172a" stroke-width="1.5" stroke-linejoin="round"/>
+                `;
+            } else if (spec.hairStyle === 'bob') {
+                frontHair = `
+                    <path d="M16 34 C15 18, 22 13, 32 13 C42 13, 49 18, 48 34 L45 34 L44 23 L20 23 L19 34 Z" fill="${hair}" stroke="#0f172a" stroke-width="1.5"/>
+                `;
+            } else if (spec.hairStyle === 'fringe') {
+                frontHair = `
+                    <path d="M17 26 C18 15, 25 13, 32 13 C39 13, 46 15, 47 26 L41 22 L35 27 L30 22 L23 27 Z" fill="${hair}" stroke="#0f172a" stroke-width="1.5" stroke-linejoin="round"/>
+                `;
+            } else {
+                frontHair = `
+                    <path d="M17 26 C18 15, 25 13, 32 13 C39 13, 46 15, 47 26 L38 21 L32 26 L26 21 Z" fill="${hair}" stroke="#0f172a" stroke-width="1.5" stroke-linejoin="round"/>
+                `;
+            }
+
+            let headgearSvg = '';
+            if (spec.headgear === 'neko') {
+                headgearSvg = `
+                    <polygon points="18,17 15,7 25,13" fill="${teamCol}" stroke="#0f172a" stroke-width="1.5" stroke-linejoin="round"/>
+                    <polygon points="46,17 49,7 39,13" fill="${teamCol}" stroke="#0f172a" stroke-width="1.5" stroke-linejoin="round"/>
+                `;
+            } else if (spec.headgear === 'band') {
+                headgearSvg = `
+                    <rect x="17" y="19" width="30" height="4.5" rx="2" fill="${teamCol}" stroke="#0f172a" stroke-width="1.3"/>
+                    <circle cx="32" cy="21.2" r="1.5" fill="#facc15"/>
+                `;
+            } else if (spec.headgear === 'crown') {
+                headgearSvg = `
+                    <polygon points="20,15 18,7 26,12 32,6 38,12 46,7 44,15" fill="#facc15" stroke="#0f172a" stroke-width="1.4" stroke-linejoin="round"/>
+                `;
+            } else if (spec.headgear === 'visor') {
+                headgearSvg = `
+                    <rect x="20" y="27.5" width="24" height="6.5" rx="3" fill="#38bdf8" fill-opacity="0.72" stroke="#0f172a" stroke-width="1.4"/>
+                `;
+            } else if (spec.headgear === 'halo') {
+                headgearSvg = `
+                    <ellipse cx="32" cy="7.5" rx="11" ry="2.8" fill="none" stroke="#facc15" stroke-width="2.3"/>
+                `;
+            }
+
+            return `
+                <svg viewBox="0 0 64 64" width="100%" height="100%" aria-hidden="true">
+                    <ellipse cx="32" cy="60.5" rx="15" ry="3" fill="rgba(15,23,42,0.28)"/>
+                    ${backHair}
+                    ${outfitSvg}
+                    <path d="M18 24 C18 16, 46 16, 46 24 L46 34 C46 41, 39 45, 32 45 C25 45, 18 41, 18 34 Z" fill="${skin}" stroke="#0f172a" stroke-width="1.5"/>
+                    ${eyesSvg}
+                    <path d="M29.5 38.5 Q32 40.8 34.5 38.5" fill="none" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"/>
+                    ${frontHair}
+                    ${headgearSvg}
+                </svg>
+            `;
+        }
+
+        /* =========================================================
+           PERSISTENT PROFILE, STATS & SETTINGS
+           ========================================================= */
+        const STATS_KEY = 'anime_ludo_pro_stats_v1';
+        let userStats = loadStats();
+        let botSpeedMs = 580;
+        let autoMoveSingle = false;
+
+        function loadStats() {
+            try {
+                const raw = localStorage.getItem(STATS_KEY);
+                if (raw) return JSON.parse(raw);
+            } catch (_) {}
+            return {
+                name: 'Player 1',
+                matches: 0,
+                wins: 0,
+                captures: 0,
+                sixes: 0
+            };
+        }
+
+        function saveStats() {
+            try {
+                localStorage.setItem(STATS_KEY, JSON.stringify(userStats));
+            } catch (_) {}
+        }
+
+        function updatePlayerName(val) {
+            const clean = (val || '').trim() || 'Player 1';
+            userStats.name = clean.slice(0, 14);
+            const inp = document.getElementById('playerNameInput');
+            if (inp) inp.value = userStats.name;
+            saveStats();
+            refreshLobbyHUD();
+        }
+
+        function refreshLobbyHUD() {
+            const nameInput = document.getElementById('playerNameInput');
+            if (nameInput) nameInput.value = userStats.name;
+
+            const lvl = Math.max(1, 1 + Math.floor(userStats.wins / 2) + Math.floor(userStats.matches / 4));
+            const lvlBadge = document.getElementById('lobbyLevelBadge');
+            if (lvlBadge) lvlBadge.textContent = `LVL ${lvl}`;
+
+            const winsSub = document.getElementById('lobbyWinsSub');
+            if (winsSub) winsSub.textContent = `${userStats.wins} Wins • ${userStats.matches} Matches`;
+
+            const leadCol = setupConfig.leadColor || 'red';
+            const profAv = document.getElementById('lobbyProfileAvatar');
+            if (profAv) profAv.innerHTML = renderAnimeHumanSVG(leadCol, 0);
+
+            const strip = document.getElementById('lobbySquadStrip');
+            if (strip) {
+                strip.innerHTML = COLORS.map(c => `
+                    <div class="squad-preview-tile" onclick="openCustomizerForColor('${c}')" title="Customize ${c.toUpperCase()} squad">
+                        <div style="width:42px; height:42px;">${renderAnimeHumanSVG(c, 0)}</div>
+                        <span class="squad-tile-label" style="color:${TEAM_HEX[c]};">${c.toUpperCase()}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        /* =========================================================
+           LOBBY CONFIGURATION STATE
+           ========================================================= */
+        const setupConfig = {
+            mode: 'ai',        // 'ai' | 'pass'
+            playerCount: 4,    // 2 | 3 | 4
+            leadColor: 'red'   // 'red' | 'green' | 'yellow' | 'blue'
+        };
+
+        function selectGameMode(mode) {
+            setupConfig.mode = mode;
+            document.getElementById('modeCardAi').classList.toggle('selected', mode === 'ai');
+            document.getElementById('modeCardPass').classList.toggle('selected', mode === 'pass');
+            document.getElementById('leadColorRow').style.display = mode === 'ai' ? 'flex' : 'none';
+        }
+
+        function selectPlayerCount(count) {
+            setupConfig.playerCount = count;
+            document.querySelectorAll('#playerCountGroup .seg-btn').forEach(btn => {
+                btn.classList.toggle('active', Number(btn.dataset.count) === count);
+            });
+        }
+
+        function selectLeadColor(color) {
+            setupConfig.leadColor = color;
+            document.querySelectorAll('.color-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.color === color);
+            });
+            refreshLobbyHUD();
+        }
+
+        function computeActiveColors() {
+            const count = setupConfig.playerCount;
+            if (count === 4) return ['red', 'green', 'yellow', 'blue'];
+            const startIdx = COLORS.indexOf(setupConfig.leadColor);
+            if (count === 2) {
+                return [COLORS[startIdx], COLORS[(startIdx + 2) % 4]];
+            }
+            return [COLORS[startIdx], COLORS[(startIdx + 1) % 4], COLORS[(startIdx + 2) % 4]];
+        }
+
+        /* =========================================================
+           CUSTOMIZER MODAL LOGIC
+           ========================================================= */
+        const customizerState = {
+            team: 'red',
+            member: 0
+        };
+
+        function openCustomizerForColor(color) {
+            customizerState.team = color;
+            customizerState.member = 0;
+            openCustomizerModal();
+        }
+
+        function openCustomizerModal() {
+            renderCustomizerUI();
+            document.getElementById('customizerModal').classList.remove('hidden');
+        }
+
+        function renderCustomizerUI() {
+            const tabsEl = document.getElementById('customizerTeamTabs');
+            tabsEl.innerHTML = COLORS.map(c => `
+                <button class="team-tab-btn ${customizerState.team === c ? 'active' : ''}" onclick="setCustomizerTeam('${c}')">
+                    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${TEAM_HEX[c]};margin-right:4px;"></span>${c}
+                </button>
+            `).join('');
+
+            const pillsEl = document.getElementById('customizerMemberPills');
+            pillsEl.innerHTML = [0, 1, 2, 3].map(idx => `
+                <button class="member-pill ${customizerState.member === idx ? 'active' : ''}" onclick="setCustomizerMember(${idx})">
+                    Avatar #${idx + 1}
+                </button>
+            `).join('');
+
+            const spec = animeSquads[customizerState.team][customizerState.member];
+            document.getElementById('customizerLiveSvg').innerHTML = renderAnimeHumanSVG(customizerState.team, customizerState.member, spec);
+            document.getElementById('customizerSlotLabel').textContent = `${customizerState.team.toUpperCase()} #${customizerState.member + 1}`;
+
+            const controlsEl = document.getElementById('customizerControls');
+            controlsEl.innerHTML = `
+                <div>
+                    <div class="trait-group-label">Hairstyle</div>
+                    <div class="option-chips">
+                        ${HAIR_STYLES.map(h => `
+                            <button class="opt-chip ${spec.hairStyle === h.id ? 'selected' : ''}" onclick="setHumanTrait('hairStyle', '${h.id}')">${h.label}</button>
+                        `).join('')}
+                    </div>
+                </div>
+                <div>
+                    <div class="trait-group-label">Hair Color</div>
+                    <div class="swatch-row">
+                        ${HAIR_COLORS.map(hex => `
+                            <button class="swatch-btn ${spec.hairColor === hex ? 'selected' : ''}" style="background:${hex};" onclick="setHumanTrait('hairColor', '${hex}')"></button>
+                        `).join('')}
+                    </div>
+                </div>
+                <div>
+                    <div class="trait-group-label">Anime Eyes</div>
+                    <div class="option-chips">
+                        ${EYE_STYLES.map(e => `
+                            <button class="opt-chip ${spec.eyes === e.id ? 'selected' : ''}" onclick="setHumanTrait('eyes', '${e.id}')">${e.label}</button>
+                        `).join('')}
+                    </div>
+                </div>
+                <div>
+                    <div class="trait-group-label">Outfit</div>
+                    <div class="option-chips">
+                        ${OUTFIT_STYLES.map(o => `
+                            <button class="opt-chip ${spec.outfit === o.id ? 'selected' : ''}" onclick="setHumanTrait('outfit', '${o.id}')">${o.label}</button>
+                        `).join('')}
+                    </div>
+                </div>
+                <div>
+                    <div class="trait-group-label">Headgear</div>
+                    <div class="option-chips">
+                        ${HEADGEAR_STYLES.map(g => `
+                            <button class="opt-chip ${spec.headgear === g.id ? 'selected' : ''}" onclick="setHumanTrait('headgear', '${g.id}')">${g.label}</button>
+                        `).join('')}
+                    </div>
+                </div>
+                <div>
+                    <div class="trait-group-label">Skin Tone</div>
+                    <div class="swatch-row">
+                        ${SKIN_TONES.map(sk => `
+                            <button class="swatch-btn ${spec.skinTone === sk ? 'selected' : ''}" style="background:${sk};" onclick="setHumanTrait('skinTone', '${sk}')"></button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function setCustomizerTeam(team) {
+            customizerState.team = team;
+            renderCustomizerUI();
+        }
+
+        function setCustomizerMember(idx) {
+            customizerState.member = idx;
+            renderCustomizerUI();
+        }
+
+        function setHumanTrait(key, val) {
+            animeSquads[customizerState.team][customizerState.member][key] = val;
+            renderCustomizerUI();
+        }
+
+        function randomizeCurrentHuman() {
+            const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+            animeSquads[customizerState.team][customizerState.member] = {
+                hairStyle: pick(HAIR_STYLES).id,
+                hairColor: pick(HAIR_COLORS),
+                skinTone: pick(SKIN_TONES),
+                eyes: pick(EYE_STYLES).id,
+                outfit: pick(OUTFIT_STYLES).id,
+                headgear: pick(HEADGEAR_STYLES).id
+            };
+            renderCustomizerUI();
+        }
+
+        function applyToAllFourTeamMembers() {
+            const src = { ...animeSquads[customizerState.team][customizerState.member] };
+            animeSquads[customizerState.team] = [0, 1, 2, 3].map(() => ({ ...src }));
+            renderCustomizerUI();
+            showToast(`Applied to all 4 ${customizerState.team.toUpperCase()} avatars`);
+        }
+
+        function resetTeamSquad(color) {
+            animeSquads[color] = defaultSquadForColor(color);
+            renderCustomizerUI();
+            showToast(`Reset ${color.toUpperCase()} squad defaults`);
+        }
+
+        function saveAndCloseCustomizer() {
+            persistSquads();
+            refreshLobbyHUD();
+            if (!document.getElementById('gameScreen').classList.contains('hidden')) {
+                syncTokenAvatarSVGs();
+            }
+            closeModal('customizerModal');
+            showToast('Anime Human avatars saved');
+        }
+
+        /* =========================================================
+           STATS & SETTINGS MODALS
+           ========================================================= */
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function openLeaderboardModal() {
+            const winRate = userStats.matches > 0 ? Math.round((userStats.wins / userStats.matches) * 100) : 0;
+            document.getElementById('infoModalTitle').textContent = 'PLAYER STATS';
+            document.getElementById('infoModalBody').innerHTML = `
+                <div class="stat-list mono">
+                    <div class="stat-row"><span>Player</span><strong>${escapeHtml(userStats.name)}</strong></div>
+                    <div class="stat-row"><span>Matches Played</span><strong>${userStats.matches}</strong></div>
+                    <div class="stat-row"><span>Victories</span><strong style="color:var(--gold-bright);">${userStats.wins} (${winRate}%)</strong></div>
+                    <div class="stat-row"><span>Opponent Captures</span><strong>${userStats.captures}</strong></div>
+                    <div class="stat-row"><span>Dice Sixes Rolled</span><strong>${userStats.sixes}</strong></div>
+                </div>
+            `;
+            document.getElementById('infoModalFooter').innerHTML = `
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-ghost" style="flex:1;" onclick="resetStatsData()">Reset Stats</button>
+                    <button class="btn btn-gold" style="flex:1; padding:9px;" onclick="closeModal('infoModal')">Done</button>
+                </div>
+            `;
+            document.getElementById('infoModal').classList.remove('hidden');
+        }
+
+        function resetStatsData() {
+            userStats = { name: userStats.name, matches: 0, wins: 0, captures: 0, sixes: 0 };
+            saveStats();
+            refreshLobbyHUD();
+            openLeaderboardModal();
+            showToast('Stats cleared');
+        }
+
+        function openSettingsModal() {
+            const speedName = botSpeedMs === 340 ? 'Fast' : botSpeedMs === 900 ? 'Calm' : 'Standard';
+            document.getElementById('infoModalTitle').textContent = 'GAME SETTINGS';
+            document.getElementById('infoModalBody').innerHTML = `
+                <div class="stat-list">
+                    <div class="stat-row">
+                        <span>Sound Effects</span>
+                        <button class="mini-btn" onclick="toggleSound(); openSettingsModal();">${sfx.enabled ? 'ON' : 'OFF'}</button>
+                    </div>
+                    <div class="stat-row">
+                        <span>Auto-Move Single Choice</span>
+                        <button class="mini-btn" onclick="toggleAutoMove(); openSettingsModal();">${autoMoveSingle ? 'ON' : 'OFF'}</button>
+                    </div>
+                    <div class="stat-row">
+                        <span>AI Bot Speed (${speedName})</span>
+                        <div style="display:flex; gap:4px;">
+                            <button class="mini-btn" onclick="setBotSpeed(340); openSettingsModal();">Fast</button>
+                            <button class="mini-btn" onclick="setBotSpeed(580); openSettingsModal();">Std</button>
+                            <button class="mini-btn" onclick="setBotSpeed(900); openSettingsModal();">Calm</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('infoModalFooter').innerHTML = `
+                <button class="btn btn-gold" style="width:100%; padding:10px;" onclick="closeModal('infoModal')">Close</button>
+            `;
+            document.getElementById('infoModal').classList.remove('hidden');
+        }
+
+        function toggleAutoMove() {
+            autoMoveSingle = !autoMoveSingle;
+            showToast(`Auto-move single piece: ${autoMoveSingle ? 'ON' : 'OFF'}`);
+        }
+
+        function setBotSpeed(ms) {
+            botSpeedMs = ms;
+            showToast('AI bot speed updated');
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, m => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[m]));
+        }
+
+        /* =========================================================
+           15x15 LUDO GEOMETRY & CLASSIC RULES ENGINE
+           ========================================================= */
+        const MAIN_TRACK = [
+            [6, 1], [6, 2], [6, 3], [6, 4], [6, 5],
+            [5, 6], [4, 6], [3, 6], [2, 6], [1, 6], [0, 6],
+            [0, 7], [0, 8],
+            [1, 8], [2, 8], [3, 8], [4, 8], [5, 8],
+            [6, 9], [6, 10], [6, 11], [6, 12], [6, 13], [6, 14],
+            [7, 14], [8, 14],
+            [8, 13], [8, 12], [8, 11], [8, 10], [8, 9],
+            [9, 8], [10, 8], [11, 8], [12, 8], [13, 8], [14, 8],
+            [14, 7], [14, 6],
+            [13, 6], [12, 6], [11, 6], [10, 6], [9, 6],
+            [8, 5], [8, 4], [8, 3], [8, 2], [8, 1], [8, 0],
+            [7, 0], [6, 0]
+        ];
+
+        const START_INDEX = { red: 1, green: 14, yellow: 27, blue: 40 };
+        const SAFE_MAIN_INDICES = new Set([1, 9, 14, 22, 27, 35, 40, 48]);
+
+        const HOME_STRETCH = {
+            red: [[7, 1], [7, 2], [7, 3], [7, 4], [7, 5], [7, 6]],
+            green: [[1, 7], [2, 7], [3, 7], [4, 7], [5, 7], [6, 7]],
+            yellow: [[7, 13], [7, 12], [7, 11], [7, 10], [7, 9], [7, 8]],
+            blue: [[13, 7], [12, 7], [11, 7], [10, 7], [9, 7], [8, 7]]
+        };
+
+        const YARD_COORDS = {
+            red: [[2.1, 2.1], [2.1, 3.9], [3.9, 2.1], [3.9, 3.9]],
+            green: [[2.1, 11.1], [2.1, 12.9], [3.9, 11.1], [3.9, 12.9]],
+            yellow: [[11.1, 11.1], [11.1, 12.9], [12.9, 11.1], [12.9, 12.9]],
+            blue: [[11.1, 2.1], [11.1, 3.9], [12.9, 2.1], [12.9, 3.9]]
+        };
+
+        const YARD_BOX_RECTS = [
+            { color: 'red', left: '0.6%', top: '0.6%', width: '38.8%', height: '38.8%' },
+            { color: 'green', left: '60.6%', top: '0.6%', width: '38.8%', height: '38.8%' },
+            { color: 'yellow', left: '60.6%', top: '60.6%', width: '38.8%', height: '38.8%' },
+            { color: 'blue', left: '0.6%', top: '60.6%', width: '38.8%', height: '38.8%' }
+        ];
+
+        function buildBoardGrid() {
+            const board = document.getElementById('ludoBoard');
+            board.querySelectorAll('.cell, .yard-ring').forEach(el => el.remove());
+
+            const homeMap = new Map();
+            COLORS.forEach(c => {
+                HOME_STRETCH[c].forEach(([r, col], idx) => {
+                    if (idx < 5) homeMap.set(`${r},${col}`, c);
+                });
+            });
+
+            for (let r = 0; r < 15; r++) {
+                for (let c = 0; c < 15; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.r = r;
+                    cell.dataset.c = c;
+
+                    if (r < 6 && c < 6) cell.classList.add('base-red');
+                    else if (r < 6 && c > 8) cell.classList.add('base-green');
+                    else if (r > 8 && c > 8) cell.classList.add('base-yellow');
+                    else if (r > 8 && c < 6) cell.classList.add('base-blue');
+
+                    const hCol = homeMap.get(`${r},${c}`);
+                    if (hCol) cell.classList.add(`path-${hCol}`);
+
+                    const mainIdx = MAIN_TRACK.findIndex(([mr, mc]) => mr === r && mc === c);
+                    if (mainIdx !== -1) {
+                        if (mainIdx === START_INDEX.red) cell.classList.add('path-red');
+                        if (mainIdx === START_INDEX.green) cell.classList.add('path-green');
+                        if (mainIdx === START_INDEX.yellow) cell.classList.add('path-yellow');
+                        if (mainIdx === START_INDEX.blue) cell.classList.add('path-blue');
+                        if (SAFE_MAIN_INDICES.has(mainIdx)) cell.classList.add('safe-star');
+                    }
+
+                    board.appendChild(cell);
+                }
+            }
+
+            YARD_BOX_RECTS.forEach(rect => {
+                const ring = document.createElement('div');
+                ring.className = 'yard-ring';
+                ring.style.left = rect.left;
+                ring.style.top = rect.top;
+                ring.style.width = rect.width;
+                ring.style.height = rect.height;
+                board.appendChild(ring);
+            });
+        }
+
+        function buildDiceCubes() {
+            const patterns = {
+                1: [4],
+                2: [0, 8],
+                3: [0, 4, 8],
+                4: [0, 2, 6, 8],
+                5: [0, 2, 4, 6, 8],
+                6: [0, 2, 3, 5, 6, 8]
+            };
+            const faceRotations = {
+                1: 'rotateX(0deg) rotateY(0deg)',
+                2: 'rotateY(-90deg)',
+                3: 'rotateY(180deg)',
+                4: 'rotateY(90deg)',
+                5: 'rotateX(-90deg)',
+                6: 'rotateX(90deg)'
+            };
+
+            COLORS.forEach(color => {
+                const box = document.getElementById(`dice-${color}`);
+                box.innerHTML = '';
+                const cube = document.createElement('div');
+                cube.className = 'dice-cube';
+                cube.id = `cube-${color}`;
+
+                for (let f = 1; f <= 6; f++) {
+                    const face = document.createElement('div');
+                    face.className = `dice-face face-${f}`;
+                    const activePips = new Set(patterns[f]);
+                    for (let p = 0; p < 9; p++) {
+                        const pip = document.createElement('span');
+                        pip.className = 'pip';
+                        if (activePips.has(p)) {
+                            pip.classList.add('show');
+                            if (f === 6 || f === 1) pip.classList.add('red-pip');
+                        }
+                        face.appendChild(pip);
+                    }
+                    cube.appendChild(face);
+                }
+
+                cube.style.transform = faceRotations[6];
+                box.appendChild(cube);
+            });
+        }
+
+        function setDiceFaceVisual(color, val) {
+            const rot = {
+                1: 'rotateX(0deg) rotateY(0deg)',
+                2: 'rotateY(-90deg)',
+                3: 'rotateY(180deg)',
+                4: 'rotateY(90deg)',
+                5: 'rotateX(-90deg)',
+                6: 'rotateX(90deg)'
+            }[val] || 'rotateX(0deg) rotateY(0deg)';
+            const cube = document.getElementById(`cube-${color}`);
+            if (cube) cube.style.transform = rot;
+        }
+
+        /* =========================================================
+           GAME STATE & MATCH FLOW
+           ========================================================= */
+        const gameState = {
+            activeColors: ['red', 'green', 'yellow', 'blue'],
+            turnIndex: 0,
+            phase: 'ROLL', // 'ROLL' | 'SELECT' | 'ANIMATING' | 'GAMEOVER'
+            diceValue: 6,
+            consecutiveSixes: 0,
+            tokens: {
+                red: [-1, -1, -1, -1],
+                green: [-1, -1, -1, -1],
+                yellow: [-1, -1, -1, -1],
+                blue: [-1, -1, -1, -1]
+            },
+            validMoves: [],
+            finishOrder: [],
+            matchCounted: false
+        };
+
+        let tokenElements = {}; // `${color}-${idx}` -> DOM node
+
+        function getCurrentColor() {
+            return gameState.activeColors[gameState.turnIndex];
+        }
+
+        function isHumanTurn(color) {
+            if (setupConfig.mode === 'pass') return true;
+            return color === setupConfig.leadColor;
+        }
+
+        function startMatch() {
+            const active = computeActiveColors();
+            gameState.activeColors = active;
+            gameState.turnIndex = 0;
+            gameState.phase = 'ROLL';
+            gameState.diceValue = 6;
+            gameState.consecutiveSixes = 0;
+            gameState.tokens = {
+                red: [-1, -1, -1, -1],
+                green: [-1, -1, -1, -1],
+                yellow: [-1, -1, -1, -1],
+                blue: [-1, -1, -1, -1]
+            };
+            gameState.validMoves = [];
+            gameState.finishOrder = [];
+            gameState.matchCounted = false;
+
+            document.getElementById('lobbyScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+
+            updateArenaLabels();
+            createTokenDOMElements();
+            renderAllTokens();
+            updateTurnUI();
+            maybeTriggerBotTurn();
+        }
+
+        function restartCurrentMatch() {
+            startMatch();
+            showToast('Match restarted');
+        }
+
+        function exitToLobby() {
+            gameState.phase = 'GAMEOVER';
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('lobbyScreen').classList.remove('hidden');
+            refreshLobbyHUD();
+        }
+
+        function updateArenaLabels() {
+            const modeTxt = setupConfig.mode === 'pass' ? 'PASS & PLAY' : 'VS AI';
+            document.getElementById('telemetryMode').textContent = `${modeTxt} • ${gameState.activeColors.length}P`;
+
+            COLORS.forEach(c => {
+                const pod = document.getElementById(`pod-${c}`);
+                const active = gameState.activeColors.includes(c);
+                pod.classList.toggle('inactive-seat', !active);
+
+                const nameEl = document.getElementById(`name-${c}`);
+                const subEl = document.getElementById(`sub-${c}`);
+                if (setupConfig.mode === 'pass') {
+                    nameEl.textContent = c.toUpperCase();
+                    subEl.textContent = 'PLAYER';
+                } else if (c === setupConfig.leadColor) {
+                    nameEl.textContent = userStats.name.toUpperCase();
+                    subEl.textContent = 'YOU';
+                } else {
+                    nameEl.textContent = `${c.toUpperCase()} BOT`;
+                    subEl.textContent = 'AI';
+                }
+
+                const pipsEl = document.getElementById(`pips-${c}`);
+                pipsEl.innerHTML = [0, 1, 2, 3].map(i => `<span class="home-pip" id="pip-${c}-${i}"></span>`).join('');
+            });
+        }
+
+        function createTokenDOMElements() {
+            const layer = document.getElementById('tokensLayer');
+            layer.innerHTML = '';
+            tokenElements = {};
+
+            gameState.activeColors.forEach(color => {
+                for (let idx = 0; idx < 4; idx++) {
+                    const el = document.createElement('div');
+                    el.className = 'anime-token';
+                    el.id = `tok-${color}-${idx}`;
+
+                    const shell = document.createElement('div');
+                    shell.className = 'avatar-shell';
+                    shell.innerHTML = renderAnimeHumanSVG(color, idx);
+                    el.appendChild(shell);
+
+                    el.addEventListener('click', () => {
+                        if (gameState.phase === 'SELECT' && gameState.validMoves.includes(idx) && isHumanTurn(getCurrentColor())) {
+                            executeMove(getCurrentColor(), idx);
+                        }
+                    });
+
+                    layer.appendChild(el);
+                    tokenElements[`${color}-${idx}`] = el;
+                }
+            });
+        }
+
+        function syncTokenAvatarSVGs() {
+            Object.keys(tokenElements).forEach(key => {
+                const [color, idxStr] = key.split('-');
+                const idx = Number(idxStr);
+                const shell = tokenElements[key]?.querySelector('.avatar-shell');
+                if (shell) shell.innerHTML = renderAnimeHumanSVG(color, idx);
+            });
+        }
+
+        function getTokenCoord(color, steps, idx) {
+            if (steps === -1) {
+                return YARD_COORDS[color][idx];
+            }
+            if (steps >= 0 && steps <= 50) {
+                const mainIdx = (START_INDEX[color] + steps) % 52;
+                return MAIN_TRACK[mainIdx];
+            }
+            if (steps >= 51 && steps <= 56) {
+                return HOME_STRETCH[color][steps - 51];
+            }
+            return [7, 7];
+        }
+
+        function renderAllTokens() {
+            const currentColor = getCurrentColor();
+            const groups = new Map();
+
+            gameState.activeColors.forEach(color => {
+                const finishedCount = gameState.tokens[color].filter(s => s === 56).length;
+                for (let p = 0; p < 4; p++) {
+                    const pip = document.getElementById(`pip-${color}-${p}`);
+                    if (pip) pip.classList.toggle('done', p < finishedCount);
+                }
+
+                gameState.tokens[color].forEach((steps, idx) => {
+                    const [r, c] = getTokenCoord(color, steps, idx);
+                    const key = `${r.toFixed(1)},${c.toFixed(1)}`;
+                    if (!groups.has(key)) groups.set(key, []);
+                    groups.get(key).push({ color, idx, r, c });
+                });
+            });
+
+            groups.forEach(list => {
+                const n = list.length;
+                list.forEach((item, i) => {
+                    const el = tokenElements[`${item.color}-${item.idx}`];
+                    if (!el) return;
+
+                    let offR = 0;
+                    let offC = 0;
+                    if (n > 1) {
+                        const angle = (2 * Math.PI * i) / n;
+                        offR = Math.sin(angle) * 0.22;
+                        offC = Math.cos(angle) * 0.22;
+                    }
+
+                    const leftPct = ((item.c + offC + 0.5) / 15) * 100;
+                    const topPct = ((item.r + offR + 0.5) / 15) * 100;
+                    el.style.left = `${leftPct}%`;
+                    el.style.top = `${topPct}%`;
+
+                    const canPick = gameState.phase === 'SELECT' && item.color === currentColor && gameState.validMoves.includes(item.idx);
+                    el.classList.toggle('movable', canPick);
+                });
+            });
+        }
+
+        function updateTurnUI() {
+            const activeCol = getCurrentColor();
+            document.getElementById('telemetryStreak').textContent = `6-STREAK: ${gameState.consecutiveSixes}/3`;
+
+            COLORS.forEach(c => {
+                const pod = document.getElementById(`pod-${c}`);
+                const diceBox = document.getElementById(`dice-${c}`);
+                const isTurn = c === activeCol && gameState.phase !== 'GAMEOVER';
+                pod.classList.toggle('active-turn', isTurn);
+
+                const canClickDice = isTurn && gameState.phase === 'ROLL' && isHumanTurn(c);
+                diceBox.classList.toggle('can-roll', canClickDice);
+                diceBox.classList.toggle('disabled-dice', !canClickDice);
+            });
+        }
+
+        function setBanner(text) {
+            const b = document.getElementById('statusBanner');
+            if (b) b.textContent = text;
+        }
+
+        function getValidMoves(color, dice) {
+            const moves = [];
+            gameState.tokens[color].forEach((steps, idx) => {
+                if (steps === 56) return;
+                if (steps === -1) {
+                    if (dice === 6) moves.push(idx);
+                } else if (steps + dice <= 56) {
+                    moves.push(idx);
+                }
+            });
+            return moves;
+        }
+
+        function handleDiceClick(color) {
+            if (gameState.phase !== 'ROLL') return;
+            if (color !== getCurrentColor()) return;
+            if (!isHumanTurn(color)) return;
+            rollDiceForColor(color);
+        }
+
+        function rollDiceForColor(color) {
+            if (gameState.phase !== 'ROLL') return;
+            gameState.phase = 'ANIMATING';
+            updateTurnUI();
+            sfx.roll();
+            setBanner(`${color.toUpperCase()} is rolling...`);
+
+            const cube = document.getElementById(`cube-${color}`);
+            if (cube) cube.classList.add('rolling');
+
+            setTimeout(() => {
+                if (cube) cube.classList.remove('rolling');
+                const rolled = Math.floor(Math.random() * 6) + 1;
+                gameState.diceValue = rolled;
+                setDiceFaceVisual(color, rolled);
+
+                if (color === setupConfig.leadColor && rolled === 6) {
+                    userStats.sixes += 1;
+                    saveStats();
+                }
+
+                if (rolled === 6) {
+                    gameState.consecutiveSixes += 1;
+                } else {
+                    gameState.consecutiveSixes = 0;
+                }
+
+                if (gameState.consecutiveSixes >= 3) {
+                    gameState.consecutiveSixes = 0;
+                    setBanner(`${color.toUpperCase()} rolled three 6s — turn forfeited`);
+                    setTimeout(() => advanceTurn(), 750);
+                    return;
+                }
+
+                const moves = getValidMoves(color, rolled);
+                gameState.validMoves = moves;
+
+                if (moves.length === 0) {
+                    setBanner(`${color.toUpperCase()} rolled ${rolled} — no valid moves`);
+                    setTimeout(() => advanceTurn(), 680);
+                    return;
+                }
+
+                gameState.phase = 'SELECT';
+                updateTurnUI();
+
+                if (!isHumanTurn(color)) {
+                    setBanner(`${color.toUpperCase()} (AI) rolled ${rolled}...`);
+                    setTimeout(() => {
+                        const chosen = pickAIMove(color, moves, rolled);
+                        executeMove(color, chosen);
+                    }, Math.max(260, Math.round(botSpeedMs * 0.8)));
+                } else if (moves.length === 1 && autoMoveSingle) {
+                    executeMove(color, moves[0]);
+                } else {
+                    setBanner(`${color.toUpperCase()} rolled ${rolled} — select a highlighted human`);
+                }
+            }, 340);
+        }
+
+        function pickAIMove(color, moves, dice) {
+            let bestIdx = moves[0];
+            let bestScore = -999;
+
+            moves.forEach(idx => {
+                const cur = gameState.tokens[color][idx];
+                const next = cur === -1 ? 0 : cur + dice;
+                let score = 0;
+
+                if (cur === -1 && dice === 6) score += 45;
+                if (next === 56) score += 70;
+
+                if (next >= 0 && next <= 50) {
+                    const mainIdx = (START_INDEX[color] + next) % 52;
+                    if (SAFE_MAIN_INDICES.has(mainIdx)) score += 22;
+
+                    const canCapture = gameState.activeColors.some(other => {
+                        if (other === color) return false;
+                        return gameState.tokens[other].some(oSteps => {
+                            if (oSteps < 0 || oSteps > 50) return false;
+                            return ((START_INDEX[other] + oSteps) % 52) === mainIdx;
+                        });
+                    });
+                    if (canCapture && !SAFE_MAIN_INDICES.has(mainIdx)) score += 85;
+                }
+
+                if (cur >= 0 && cur <= 50) {
+                    const curMain = (START_INDEX[color] + cur) % 52;
+                    if (!SAFE_MAIN_INDICES.has(curMain)) {
+                        const inDanger = gameState.activeColors.some(other => {
+                            if (other === color) return false;
+                            return gameState.tokens[other].some(oSteps => {
+                                if (oSteps < 0 || oSteps > 50) return false;
+                                const diff = (mainIdxDiff(START_INDEX[other], oSteps, curMain));
+                                return diff >= 1 && diff <= 6;
+                            });
+                        });
+                        if (inDanger) score += 30;
+                    }
+                }
+
+                score += Math.random() * 6;
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestIdx = idx;
+                }
+            });
+
+            return bestIdx;
+        }
+
+        function mainIdxDiff(startIdx, steps, targetMain) {
+            const curMain = (startIdx + steps) % 52;
+            return (targetMain - curMain + 52) % 52;
+        }
+
+        async function executeMove(color, idx) {
+            if (gameState.phase === 'ANIMATING') return;
+            gameState.phase = 'ANIMATING';
+            gameState.validMoves = [];
+            updateTurnUI();
+            renderAllTokens();
+
+            const dice = gameState.diceValue;
+            const curSteps = gameState.tokens[color][idx];
+            const tokEl = tokenElements[`${color}-${idx}`];
+
+            if (curSteps === -1 && dice === 6) {
+                gameState.tokens[color][idx] = 0;
+                sfx.exitHome();
+                renderAllTokens();
+                await sleep(220);
+            } else {
+                for (let s = 1; s <= dice; s++) {
+                    gameState.tokens[color][idx] += 1;
+                    if (tokEl) tokEl.classList.add('hopping');
+                    sfx.hop(s);
+                    renderAllTokens();
+                    await sleep(145);
+                    if (tokEl) tokEl.classList.remove('hopping');
+                }
+            }
+
+            const finalSteps = gameState.tokens[color][idx];
+            let capturedAny = false;
+
+            if (finalSteps >= 0 && finalSteps <= 50) {
+                const landMainIdx = (START_INDEX[color] + finalSteps) % 52;
+                if (!SAFE_MAIN_INDICES.has(landMainIdx)) {
+                    for (const otherCol of gameState.activeColors) {
+                        if (otherCol === color) continue;
+                        for (let oIdx = 0; oIdx < 4; oIdx++) {
+                            const oSteps = gameState.tokens[otherCol][oIdx];
+                            if (oSteps >= 0 && oSteps <= 50) {
+                                const oMainIdx = (START_INDEX[otherCol] + oSteps) % 52;
+                                if (oMainIdx === landMainIdx) {
+                                    capturedAny = true;
+                                    if (color === setupConfig.leadColor) {
+                                        userStats.captures += 1;
+                                        saveStats();
+                                    }
+                                    const victimEl = tokenElements[`${otherCol}-${oIdx}`];
+                                    if (victimEl) victimEl.classList.add('knockout');
+                                    sfx.capture();
+                                    await sleep(360);
+                                    if (victimEl) victimEl.classList.remove('knockout');
+                                    gameState.tokens[otherCol][oIdx] = -1;
+                                    renderAllTokens();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (finalSteps === 56) {
+                sfx.goal();
+            }
+
+            // Check finish status for this color
+            if (gameState.tokens[color].every(s => s === 56) && !gameState.finishOrder.includes(color)) {
+                gameState.finishOrder.push(color);
+            }
+
+            const remainingActive = gameState.activeColors.filter(c => !gameState.finishOrder.includes(c));
+            if (remainingActive.length <= 1) {
+                remainingActive.forEach(c => {
+                    if (!gameState.finishOrder.includes(c)) gameState.finishOrder.push(c);
+                });
+                concludeMatch();
+                return;
+            }
+
+            if (gameState.finishOrder.includes(color)) {
+                setBanner(`${color.toUpperCase()} completed all 4 humans!`);
+                setTimeout(() => advanceTurn(), 750);
+                return;
+            }
+
+            if (capturedAny || dice === 6) {
+                gameState.phase = 'ROLL';
+                updateTurnUI();
+                const reason = capturedAny ? 'Capture bonus roll!' : 'Rolled 6 — bonus roll!';
+                setBanner(`${color.toUpperCase()}: ${reason}`);
+                maybeTriggerBotTurn();
+            } else {
+                advanceTurn();
+            }
+        }
+
+        function advanceTurn() {
+            const total = gameState.activeColors.length;
+            let guard = 0;
+            do {
+                gameState.turnIndex = (gameState.turnIndex + 1) % total;
+                guard++;
+            } while (gameState.finishOrder.includes(getCurrentColor()) && guard <= total);
+
+            gameState.consecutiveSixes = 0;
+            gameState.phase = 'ROLL';
+            updateTurnUI();
+            setBanner(`${getCurrentColor().toUpperCase()}'s turn to roll`);
+            maybeTriggerBotTurn();
+        }
+
+        function maybeTriggerBotTurn() {
+            const col = getCurrentColor();
+            if (gameState.phase === 'ROLL' && !isHumanTurn(col)) {
+                setTimeout(() => {
+                    if (gameState.phase === 'ROLL' && getCurrentColor() === col && !isHumanTurn(col)) {
+                        rollDiceForColor(col);
+                    }
+                }, botSpeedMs);
+            }
+        }
+
+        function concludeMatch() {
+            gameState.phase = 'GAMEOVER';
+            updateTurnUI();
+            sfx.win();
+
+            if (!gameState.matchCounted) {
+                gameState.matchCounted = true;
+                userStats.matches += 1;
+                const winner = gameState.finishOrder[0];
+                if (setupConfig.mode === 'ai' && winner === setupConfig.leadColor) {
+                    userStats.wins += 1;
+                } else if (setupConfig.mode === 'pass' && winner) {
+                    userStats.wins += 1;
+                }
+                saveStats();
+            }
+
+            const winnerCol = gameState.finishOrder[0] || 'red';
+            setBanner(`Match complete — ${winnerCol.toUpperCase()} wins!`);
+
+            document.getElementById('infoModalTitle').textContent = 'MATCH VICTORY';
+            document.getElementById('infoModalBody').innerHTML = `
+                <div style="display:flex; flex-direction:column; align-items:center; gap:8px; padding:6px 0;">
+                    <div style="width:74px; height:74px;">${renderAnimeHumanSVG(winnerCol, 0)}</div>
+                    <div style="font-size:1.1rem; font-weight:800; color:${TEAM_HEX[winnerCol]}; text-transform:uppercase;">${winnerCol} Squad Wins</div>
+                </div>
+                <div class="stat-list mono">
+                    ${gameState.finishOrder.map((c, idx) => `
+                        <div class="stat-row">
+                            <span>#${idx + 1} ${c.toUpperCase()}</span>
+                            <span>${idx === 0 ? 'WINNER' : 'FINISHED'}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('infoModalFooter').innerHTML = `
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-ghost" style="flex:1;" onclick="closeModal('infoModal'); exitToLobby();">Lobby</button>
+                    <button class="btn btn-gold" style="flex:1; padding:10px;" onclick="closeModal('infoModal'); startMatch();">Play Again</button>
+                </div>
+            `;
+            document.getElementById('infoModal').classList.remove('hidden');
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        /* =========================================================
+           INITIALIZE ON LOAD
+           ========================================================= */
+        window.addEventListener('DOMContentLoaded', () => {
+            buildBoardGrid();
+            buildDiceCubes();
+            refreshLobbyHUD();
+        });
+    </script>
+</body>
+</html>
